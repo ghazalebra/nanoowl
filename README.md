@@ -75,18 +75,33 @@ NanoOWL runs real-time on Jetson Orin Nano.
 <a id="setup"></a>
 ## 🛠️ Setup
 
+### ✅ Prerequisites
+
+- Jetson device with JetPack ≥ 5.0 (includes TensorRT)
+- Python ≥ 3.8
+- Pip ≥ 21.0
+
 1. Install the dependencies
 
-    1. Install PyTorch
-
-    2. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
-    3. Install NVIDIA TensorRT
-    4. Install the Transformers library
+    1. Install PyTorch & TorchVision ([Jetson-compatible wheels](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048))
+       ```bash
+       pip install torch-*.whl torchvision-*.whl
+       ```
+    2. Install NVIDIA TensorRT
+    3. Install the Transformers library
 
         ```bash
         python3 -m pip install transformers
         ```
-    5. (optional) Install NanoSAM (for the instance segmentation example)
+    4. Install other dependencies (if not already present)
+         ```bash
+            pip install -r requirements.txt
+        ```
+        Or, for a more concise installation:
+        ```bash
+        pip install matplotlib opencv-python ftfy regex safetensors tqdm scipy PyYAML
+        ```
+    5. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
 
 2. Install the NanoOWL package.
 
