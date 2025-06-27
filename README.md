@@ -85,7 +85,7 @@ NanoOWL runs real-time on Jetson Orin Nano.
 
     1. Install PyTorch & TorchVision ([Jetson-compatible wheels](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048))
        ```bash
-       pip install torch-*.whl torchvision-*.whl
+       python3 -m pip install torch-*.whl torchvision-*.whl
        ```
     2. Install NVIDIA TensorRT
     3. Install the Transformers library
@@ -94,12 +94,12 @@ NanoOWL runs real-time on Jetson Orin Nano.
         python3 -m pip install transformers
         ```
     4. Install other dependencies (if not already present)
-         ```bash
-            pip install -r requirements.txt
-        ```
-        Or, for a more concise installation:
         ```bash
-        pip install matplotlib opencv-python ftfy regex safetensors tqdm scipy PyYAML
+        python3 -m pip install -r requirements.txt
+        ```
+        Or, install them manually:
+        ```bash
+        python3 -m pip install matplotlib opencv-python ftfy regex safetensors tqdm scipy PyYAML
         ```
     5. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
 
@@ -211,22 +211,41 @@ python3 tree_predict.py \
 <img src="assets/jetson_person_2x.gif" height="50%" width="50%"/>
 
 This example demonstrates the tree predictor running on a live camera feed with
-live-edited text prompts.  To run the example
+live-edited text prompts.  To run the example,
 
-1. Ensure you have a camera device connected
+using a directly connected camera:
+
+1. Ensure you have a camera device connected.
 
 2. Launch the demo
     ```bash
     cd examples/tree_demo
     python3 tree_demo.py ../../data/owl_image_encoder_patch32.engine
     ```
+(proceed to steps 3 and 4 to continue)
+
+using a remote webcam:
+
+1. On the computer with the webcam, run the start_webcam_stream.sh script located in the test folder. This script captures the webcam feed, hosts it locally as an MJPEG stream, and exposes it via a public URL using ngrok. You may need to install ngrok first (e.g., via brew install ngrok on macOS).
+
+    After launching the script, look for a line in the output similar to:
+
+    ```bash
+    ✅ Ngrok tunnel: http://xyz.ngrok.io/source_0
+    ```
+    This is the public MJPEG stream URL, which you will later use on the Jetson device running NanoOwl.
+
+2. Launch the demo
+    ```bash
+    cd examples/tree_demo
+    python3 tree_demo.py ../../data/owl_image_encoder_patch32.engine \
+    --camera_url <url_from_last_step>
+    ```
 3. Second, open your browser to ``http://<ip address>:7860``
 4. Type whatever prompt you like to see what works!  Here are some examples
     - Example: [a face [a nose, an eye, a mouth]]
     - Example: [a face (interested, yawning / bored)]
     - Example: (indoors, outdoors)
-
-
 
 <a id="acknowledgement"></a>
 ## 👏 Acknowledgement
